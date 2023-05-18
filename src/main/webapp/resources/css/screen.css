@@ -200,3 +200,9 @@ input {
   color:#3883ce;
   text-decoration:none; 
 }
+
+.div-filter {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}

@@ -47,7 +47,7 @@ public class LoginController {
 	    	        	(HttpServletResponse)facesContext.getExternalContext().getResponse(),
 	    	            AuthenticationParameters.withParams().credential(credential));
 	    	if (status.equals(AuthenticationStatus.SUCCESS))
-	    		facesContext.getExternalContext().redirect("cadastro_usuario.xhtml");
+	    		facesContext.getExternalContext().redirect("crud_client.xhtml");
 	    	else if (status.equals(AuthenticationStatus.SEND_FAILURE)) {
 	    		usuario = new Usuario();
 	            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Inválido!", "Usuário ou senha incorretos."));

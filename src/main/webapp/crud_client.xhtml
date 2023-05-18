@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/default.xhtml">
+    
+    <ui:define name="content">  
+        <h:form id="dialogs">
+        	<p:growl id="messages"/>
+	        <p:dialog header="Novo Cliente" showEffect="fade" modal="true" widgetVar="camisetaDialog" responsive="true">   
+	            <p:outputPanel id="camiseta-conteudo-dialog" class="ui-fluid">
+	                <p:outputPanel rendered="#{not empty clientController.client}">
+	                	<ui:fragment rendered="#{not clientController.renderNewRegister}">
+						    <div class="field">
+						        <p:outputLabel for="id">ID</p:outputLabel>
+						        <p:inputText id="id" value="#{clientController.client.idClient}" disabled="#{true}"/>
+						    </div>
+						</ui:fragment>
+	                    <div class="field">
+	                        <p:outputLabel for="cpf">CPF</p:outputLabel>
+	                        <p:inputText id="cpf" value="#{clientController.client.cpf}" required="true" disabled="#{not clientController.renderNewRegister}" />
+	                    </div>
+	                    <div class="field">
+	                        <p:outputLabel for="name">Nome</p:outputLabel>
+	                        <p:inputText id="name" value="#{clientController.client.name}" required="true" disabled="#{not clientController.renderNewRegister}"/>
+	                    </div>
+						<div class="field">
+	                        <p:outputLabel for="socialName">Nome social</p:outputLabel>
+	                        <p:inputText id="socialName" value="#{clientController.client.socialName}" />
+	                    </div>
+						<div class="field">
+	                        <p:outputLabel for="height">Altura</p:outputLabel>
+	                        <p:inputText id="height" value="#{clientController.client.height}" required="true"/>
+	                    </div>
+						<div class="field">
+	                        <p:outputLabel for="weight">Peso</p:outputLabel>
+	                        <p:inputText id="weight" value="#{clientController.client.weight}" required="true"/>
+	                    </div>
+						<div class="field">
+							<p:outputLabel for="gender">Gênero</p:outputLabel>
+							<p:selectOneMenu id="gender" value="#{clientController.client.gender}" required="true">
+							   <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+							   <f:selectItem itemLabel="Feminino" itemValue="Feminino"/>
+							   <f:selectItem itemLabel="Transgênero" itemValue="Transgênero"/>
+							   <f:selectItem itemLabel="Gênero Neutro" itemValue="Gênero Neutro"/>
+							   <f:selectItem itemLabel="Não-Binário" itemValue="Não-Binário"/>
+							   <f:selectItem itemLabel="Agênero" itemValue="Agênero"/>
+							   <f:selectItem itemLabel="Pangênero" itemValue="Pangênero"/>
+							   <f:selectItem itemLabel="Genderqueer" itemValue="Genderqueer"/>
+							</p:selectOneMenu>
+						 </div>						 
+						<div class="field">
+	                        <p:outputLabel for="age">Idade</p:outputLabel>
+	                        <p:inputText id="age" value="#{clientController.client.age}" required="true"/>
+	                    </div>
+						<div class="field">
+	                        <p:outputLabel for="email">E-mail</p:outputLabel>
+	                        <p:inputText id="email" value="#{clientController.client.email}" required="true"/>
+	                    </div>
+						<div class="field">
+							<p:outputLabel for="cellphone">Contato</p:outputLabel>
+							<p:inputText id="cellphone" value="#{clientController.client.cellphone}" required="true"/>
+						</div>
+						
+						<div class="field">
+	                        <p:outputLabel for="address">Endereço</p:outputLabel>
+	                        <p:inputText id="address" value="#{clientController.client.address}" />
+	                    </div>
+	                </p:outputPanel>
+	            </p:outputPanel>
+	
+	            <f:facet name="footer">
+	                <p:commandButton value="Salvar Novo" icon="pi pi-check" actionListener="#{clientController.saveNew()}"
+	                    update="camiseta-conteudo-dialog dialogs:messages form:dt-camisetas" process="camiseta-conteudo-dialog @this" rendered="#{clientController.renderNewRegister}"/>
+	                <p:commandButton value="Salvar Alteração" icon="pi pi-check" actionListener="#{clientController.saveUpdate()}"
+	                    update="camiseta-conteudo-dialog dialogs:messages form:dt-camisetas" process="camiseta-conteudo-dialog @this" rendered="#{not clientController.renderNewRegister}"/>
+	                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('camisetaDialog').hide()" class="ui-button-secondary" type="button" />
+	            </f:facet>
+	        </p:dialog>
+
+	        <p:confirmDialog widgetVar="removerCamisetaDialog" showEffect="fade" width="300"
+	            message="Desejar remover este cliente?" header="Confirm" severity="warn">
+	            <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{clientController.remove}"
+	                process="@this" oncomplete="PF('removerCamisetaDialog').hide()" />
+	            <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('removerCamisetaDialog').hide()" />
+	        </p:confirmDialog>
+		
+        </h:form>     
+        
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" />
+            
+            <p:toolbar>
+	            <p:toolbarGroup>
+	                <p:commandButton value="Novo" icon="pi pi-plus" actionListener="#{clientController.newRegister}"
+	                    update=":dialogs" oncomplete="PF('camisetaDialog').show()"
+	                    styleClass="ui-button-success" style="margin-right: .5rem">
+	                    <p:resetInput target=":dialogs:camiseta-conteudo-dialog" />
+	                </p:commandButton>
+	            </p:toolbarGroup>
+	        </p:toolbar>
+			
+
+			<p:dataTable id="dt-camisetas" widgetVar="dtCamisetas" var="client" value="#{clientController.filteredClients}">
+	            <f:facet name="header">
+					<div class="div-filter" style="display: flex; align-items: center; gap: 10px;">
+		                <span style="font-weight: bold; margin-right: 80px">Clientes</span>			
+						<p:inputText id="filterName" value="#{clientController.filterName}" placeholder="Filtrar por nome" />
+						<p:selectOneMenu id="filterGender" value="#{clientController.filterGender}">
+							<f:selectItem itemLabel="Selecione um gênero" itemValue="" />
+							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+							<f:selectItem itemLabel="Transgênero" itemValue="Transgênero" />
+							<f:selectItem itemLabel="Gênero Neutro" itemValue="Gênero Neutro" />
+							<f:selectItem itemLabel="Não-Binário" itemValue="Não-Binário" />
+							<f:selectItem itemLabel="Agênero" itemValue="Agênero" />
+							<f:selectItem itemLabel="Pangênero" itemValue="Pangênero" />
+							<f:selectItem itemLabel="Genderqueer" itemValue="Genderqueer" />
+						</p:selectOneMenu>
+						<p:commandButton value="Filtrar" update="dt-camisetas" />
+					</div>	                
+	            </f:facet>
+				<p:column headerText="ID">
+	                <h:outputText value="#{client.idClient}" />
+				</p:column>
+	            <p:column headerText="CPF">
+	                <h:outputText value="#{client.cpf}" />
+	            </p:column>
+	            <p:column headerText="Nome">
+	                <h:outputText value="#{client.name}" />
+	            </p:column>
+				<p:column headerText="Nome social">
+	                <h:outputText value="#{client.socialName}" />
+				</p:column>
+				<p:column headerText="Altura">
+	                <h:outputText value="#{client.height}" />
+				</p:column>
+				<p:column headerText="Peso">
+	                <h:outputText value="#{client.weight}" />
+				</p:column>
+				<p:column headerText="Gênero">
+	                <h:outputText value="#{client.gender}" />
+				</p:column>
+				<p:column headerText="Idade">
+	                <h:outputText value="#{client.age}" />
+				</p:column>
+				<p:column headerText="E-mail">
+	                <h:outputText value="#{client.email}" />
+				</p:column>
+				<p:column headerText="Contato">
+	                <h:outputText value="#{client.cellphone}" />
+				</p:column>
+				<p:column headerText="Endereço">
+	                <h:outputText value="#{client.address}" />
+				</p:column>
+
+	            <p:column>
+	                <p:commandButton icon="pi pi-pencil" update=":dialogs" 
+	                    oncomplete="PF('camisetaDialog').show()" action="#{clientController.updateRegister()}"
+	                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+	                    <f:setPropertyActionListener value="#{client}" target="#{clientController.client}" />
+	                    <p:resetInput target=":dialogs:camiseta-conteudo-dialog" />
+	                </p:commandButton>
+	                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+	                                 process="@this" oncomplete="PF('removerCamisetaDialog').show()">
+	                    <f:setPropertyActionListener value="#{client}" target="#{clientController.client}" />
+	                </p:commandButton>
+	            </p:column>
+	
+	        </p:dataTable>
+	    </h:form>
+    </ui:define>
+</ui:composition>
