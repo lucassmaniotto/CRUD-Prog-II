@@ -108,17 +108,10 @@
 					<div class="div-filter" style="display: flex; align-items: center; gap: 10px;">
 		                <span style="font-weight: bold; margin-right: 80px">Clientes</span>			
 						<p:inputText id="filterName" value="#{clientController.filterName}" placeholder="Filtrar por nome" />
-						<p:selectOneMenu id="filterGender" value="#{clientController.filterGender}">
-							<f:selectItem itemLabel="Selecione um gênero" itemValue="" />
-							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
-							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
-							<f:selectItem itemLabel="Transgênero" itemValue="Transgênero" />
-							<f:selectItem itemLabel="Gênero Neutro" itemValue="Gênero Neutro" />
-							<f:selectItem itemLabel="Não-Binário" itemValue="Não-Binário" />
-							<f:selectItem itemLabel="Agênero" itemValue="Agênero" />
-							<f:selectItem itemLabel="Pangênero" itemValue="Pangênero" />
-							<f:selectItem itemLabel="Genderqueer" itemValue="Genderqueer" />
-						</p:selectOneMenu>
+						<h:selectOneMenu id="gender" value="#{clientController.client.gender}" required="true">
+							<f:selectItems value="#{clientController.genderOptions}" var="gender" itemLabel="#{gender.description}" itemValue="#{gender.label}" />
+						</h:selectOneMenu>
+
 						<p:commandButton value="Filtrar" update="dt-camisetas" />
 					</div>	                
 	            </f:facet>

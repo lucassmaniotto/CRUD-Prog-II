@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,7 +17,9 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import br.edu.projeto.dao.ClientDAO;
+import br.edu.projeto.dao.GenderDAO;
 import br.edu.projeto.model.Client;
+import br.edu.projeto.model.Gender;
 
 @ViewScoped
 @Named
@@ -41,9 +44,16 @@ public class ClientController implements Serializable {
 
 	private List<Client> filteredClients;
 
+	@Inject
+	private GenderDAO genderDAO;
+
+	@Inject
+    private List<SelectItem> genderOptions;
+
 	@PostConstruct
 	public void init() {
 		this.setClientList(clientDAO.listAll());
+		this.setGenderOptions(this.getGenderOptions());
 	}
 
 	public void newRegister() {
@@ -140,6 +150,18 @@ public class ClientController implements Serializable {
 		
 		return filteredClients;
 	}
+
+	private void fillGenderOptions() {
+        List<Gender> genders = genderDAO.getAllGenders();
+        for (Gender gender : genders) {
+            genderOptions.add(new SelectItem(gender.getLabel(), gender.getDescription()));
+        }
+    }
+
+    public List<SelectItem> getGenderOptions() {
+		this.fillGenderOptions();
+        return genderOptions;
+    }
 	
 	// Validações
 	private boolean validateClientData() {
@@ -226,6 +248,10 @@ public class ClientController implements Serializable {
 
 	public void setClientList(List<Client> clientList) {
 		this.clientList = clientList;
+	}
+
+	public void setGenderOptions(List<SelectItem> genderOptions) {
+		this.genderOptions = genderOptions;
 	}
 
 	public Boolean getRenderNewRegister() {
