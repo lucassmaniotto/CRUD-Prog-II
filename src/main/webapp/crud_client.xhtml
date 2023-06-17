@@ -50,7 +50,14 @@
 							   <f:selectItem itemLabel="Pangênero" itemValue="Pangênero"/>
 							   <f:selectItem itemLabel="Genderqueer" itemValue="Genderqueer"/>
 							</p:selectOneMenu>
-						 </div>						 
+						 </div>
+						<div class="field">
+						    <p:outputLabel for="nationality">Nacionalidade</p:outputLabel>
+						    <p:selectOneMenu id="nationality" value="#{clientController.client.nationalityId}">
+						        <f:selectItems value="#{clientController.nationalityList}" var="nationality" itemLabel="#{nationality.nationalityType}" itemValue="#{nationality.idNationality}" />
+						    </p:selectOneMenu>
+						</div>
+
 						<div class="field">
 	                        <p:outputLabel for="age">Idade</p:outputLabel>
 	                        <p:inputText id="age" value="#{clientController.client.age}" required="true"/>

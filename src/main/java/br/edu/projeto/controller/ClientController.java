@@ -16,7 +16,9 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import br.edu.projeto.dao.ClientDAO;
+import br.edu.projeto.dao.NationalityDAO;
 import br.edu.projeto.model.Client;
+import br.edu.projeto.model.Nationality;
 
 @ViewScoped
 @Named
@@ -40,11 +42,17 @@ public class ClientController implements Serializable {
 	private String filterGender;
 
 	private List<Client> filteredClients;
+	
+	@Inject
+    private NationalityDAO nationalityDAO;
+    private List<Nationality> nationalityList;
 
-	@PostConstruct
-	public void init() {
-		this.setClientList(clientDAO.listAll());
-	}
+
+    @PostConstruct
+    public void init() {
+        this.clientList = clientDAO.listAll();
+        this.nationalityList = nationalityDAO.listAllNacionalities();
+    }
 
 	public void newRegister() {
 		this.setClient(new Client());
@@ -251,4 +259,12 @@ public class ClientController implements Serializable {
 	public void setFilterGender(String filterGender) {
 		this.filterGender = filterGender;
 	}
+	
+	public List<Nationality> getNationalityList() {
+        return nationalityList;
+    }
+
+    public void setNationalityList(List<Nationality> nationalityList) {
+        this.nationalityList = nationalityList;
+    }
 }

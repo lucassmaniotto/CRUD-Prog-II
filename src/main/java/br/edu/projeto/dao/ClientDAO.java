@@ -89,37 +89,40 @@ public class ClientDAO implements Serializable {
 	}
 
 	public Boolean insert(Client client) {
-		Boolean result = false;
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = this.dataSource.getConnection();
-			try {
-				preparedStatement = connection.prepareStatement(
-						"INSERT INTO t_client (cli_cpf, cli_name, cli_sociaL_name, cli_height, cli_weight, cli_gender, cli_age, cli_email, cli_cellphone, cli_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-				preparedStatement.setString(1, client.getCpf());
-				preparedStatement.setString(2, client.getName());
-				preparedStatement.setString(3, client.getSocialName());
-				preparedStatement.setDouble(4, client.getHeight());
-				preparedStatement.setDouble(5, client.getWeight());
-				preparedStatement.setString(6, client.getGender());
-				preparedStatement.setInt(7, client.getAge());
-				preparedStatement.setString(8, client.getEmail());
-				preparedStatement.setString(9, client.getCellphone());
-				preparedStatement.setString(10, client.getAddress());
-				preparedStatement.execute();
-				result = true;
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DbUtil.closePreparedStatement(preparedStatement);
-			DbUtil.closeConnection(connection);
-		}
-		return result;
+	    Boolean result = false;
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    try {
+	        connection = this.dataSource.getConnection();
+	        try {
+	            preparedStatement = connection.prepareStatement(
+	                "INSERT INTO t_client (cli_cpf, cli_name, cli_social_name, cli_height, cli_weight, cli_gender, cli_age, cli_email, cli_cellphone, cli_address, cli_nationality) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+	            );
+	            preparedStatement.setString(1, client.getCpf());
+	            preparedStatement.setString(2, client.getName());
+	            preparedStatement.setString(3, client.getSocialName());
+	            preparedStatement.setDouble(4, client.getHeight());
+	            preparedStatement.setDouble(5, client.getWeight());
+	            preparedStatement.setString(6, client.getGender());
+	            preparedStatement.setInt(7, client.getAge());
+	            preparedStatement.setString(8, client.getEmail());
+	            preparedStatement.setString(9, client.getCellphone());
+	            preparedStatement.setString(10, client.getAddress());
+	            preparedStatement.setInt(11, client.getNationalityId());
+	            preparedStatement.execute();
+	            result = true;
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DbUtil.closePreparedStatement(preparedStatement);
+	        DbUtil.closeConnection(connection);
+	    }
+	    return result;
 	}
+
 
 	public boolean update(Client client) {
 		boolean result = false;

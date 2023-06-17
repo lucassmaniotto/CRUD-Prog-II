@@ -12,6 +12,7 @@ public class Client {
     private String email;
     private String cellphone;
     private String address;
+    private int nationalityId;
 
     public int getIdClient() {
         return idClient;
@@ -65,8 +66,8 @@ public class Client {
         return gender;
     }
 
-    public void setGender(String string) {
-        this.gender = string;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public int getAge() {
@@ -99,5 +100,13 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getNationalityId() {
+        return nationalityId;
+    }
+
+    public void setNationalityId(int nationalityId) {
+        this.nationalityId = nationalityId;
     }
 }
