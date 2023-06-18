@@ -9,15 +9,9 @@
     <ui:define name="content">  
         <h:form id="dialogs">
         	<p:growl id="messages"/>
-	        <p:dialog header="Novo Cliente" showEffect="fade" modal="true" widgetVar="camisetaDialog" responsive="true">   
-	            <p:outputPanel id="camiseta-conteudo-dialog" class="ui-fluid">
+			<p:dialog header="#{clientController.renderNewRegister ? 'Novo Cliente' : 'Atualizar Cliente'}" showEffect="fade" modal="true" widgetVar="camisetaDialog" responsive="true">
+				<p:outputPanel id="camiseta-conteudo-dialog" class="ui-fluid">
 	                <p:outputPanel rendered="#{not empty clientController.client}">
-	                	<ui:fragment rendered="#{not clientController.renderNewRegister}">
-						    <div class="field">
-						        <p:outputLabel for="id">ID</p:outputLabel>
-						        <p:inputText id="id" value="#{clientController.client.idClient}" disabled="#{true}"/>
-						    </div>
-						</ui:fragment>
 	                    <div class="field">
 	                        <p:outputLabel for="cpf">CPF</p:outputLabel>
 	                        <p:inputText id="cpf" value="#{clientController.client.cpf}" required="true" disabled="#{not clientController.renderNewRegister}" />
