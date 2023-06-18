@@ -44,6 +44,7 @@ public class ClientDAO implements Serializable {
 	            client.setEmail(resultSet.getString("cli_email"));
 	            client.setCellphone(resultSet.getString("cli_cellphone"));
 	            client.setAddress(resultSet.getString("cli_address"));
+				client.setNationalityId(resultSet.getInt("cli_nationality"));
 	            clientList.add(client);
 	        }
 	    } catch (SQLException e) {
@@ -132,7 +133,7 @@ public class ClientDAO implements Serializable {
 			connection = this.dataSource.getConnection();
 			try {
 				preparedStatement = connection.prepareStatement(
-					"UPDATE t_client SET cli_social_name = ?, cli_height = ?, cli_weight = ?, cli_gender = ?, cli_age = ?, cli_email = ?, cli_cellphone = ?, cli_address = ? WHERE cli_id = ?");
+					"UPDATE t_client SET cli_social_name = ?, cli_height = ?, cli_weight = ?, cli_gender = ?, cli_age = ?, cli_email = ?, cli_cellphone = ?, cli_address = ?, cli_nationality = ? WHERE cli_id = ?");
 				preparedStatement.setString(1, client.getSocialName());
 				preparedStatement.setDouble(2, client.getHeight());
 				preparedStatement.setDouble(3, client.getWeight());
@@ -141,7 +142,8 @@ public class ClientDAO implements Serializable {
 				preparedStatement.setString(6, client.getEmail());
 				preparedStatement.setString(7, client.getCellphone());
 				preparedStatement.setString(8, client.getAddress());
-				preparedStatement.setInt(9, client.getIdClient());
+				preparedStatement.setInt(9, client.getNationalityId());
+				preparedStatement.setInt(10, client.getIdClient());
 				preparedStatement.executeUpdate();
 				result = true;
 			} catch (SQLException e) {

@@ -219,6 +219,25 @@ public class ClientController implements Serializable {
 		return cellphone.matches("\\(\\d{2}\\)\\d{5}-\\d{4}");
 	}
 
+	public String getNationalityText(int nationalityId) {
+		if (nationalityId == 1) {
+			return "Brasileiro nato";
+		} else if (nationalityId == 2) {
+			return "Brasileiro naturalizado";
+		} else if (nationalityId == 3) {
+			return "Dupla ou múltipla nacionalidade";
+		} else if (nationalityId == 4) {
+			return "Perda da nacionalidade";
+		} else if (nationalityId == 5) {
+			return "Reaquisição da nacionalidade";
+		} else if (nationalityId == 6) {
+			return "Estrangeiro";
+		} else {
+			return "Nacionalidade desconhecida";
+		}
+	}
+	
+
 	// GETs e SETs
 	public Client getClient() {
 		return client;

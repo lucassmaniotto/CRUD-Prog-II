@@ -129,9 +129,6 @@
 						<p:commandButton value="Filtrar" update="dt-camisetas" />
 					</div>	                
 	            </f:facet>
-				<p:column headerText="ID">
-	                <h:outputText value="#{client.idClient}" />
-				</p:column>
 	            <p:column headerText="CPF">
 	                <h:outputText value="#{client.cpf}" />
 	            </p:column>
@@ -149,6 +146,9 @@
 				</p:column>
 				<p:column headerText="Gênero">
 	                <h:outputText value="#{client.gender}" />
+				</p:column>
+				<p:column headerText="Nacionalidade">
+					<h:outputText value="#{clientController.getNationalityText(client.nationalityId)}" />
 				</p:column>
 				<p:column headerText="Idade">
 	                <h:outputText value="#{client.age}" />
